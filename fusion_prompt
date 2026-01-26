@@ -1,0 +1,91 @@
+
+'''
+Fusion prompt design by Nayoung Park.
+'''
+
+PROMPT = """
+You are an expert in summarizing fine-grained video clip descriptions into concise and coherent segment captions.
+
+You excel at: selecting only factual, visible information from the clip captions.
+
+You are given:
+A list of short captions, each describing a fine-grained visual clip from a video segment.
+The original caption for the segment, which shows the target style and level of abstraction.
+Your task is to rewrite the original caption.
+
+Important: Do not change or remove the core content or structure of the original segment caption. Instead, enhance it by adding specific, visible objects or actions mentioned in the clips.
+Keep the tone, phrasing, and abstraction level of the original exactly the same, but refine the wording or insert visual details if they clearly support or strengthen the original message.
+If no meaningful enhancement is possible from the clips, return the original segment caption as-is.
+Treat the original segment caption as the most reliable source of truth. Your goal is to enhance it, not to alter it.
+Use clip captions only to add supporting visual details that clearly match and reinforce what the original caption already says.
+Do not change, contradict, or reinterpret the original segment caption, even if the clip captions suggest otherwise. If clip captions introduce conflicting or irrelevant details (e.g., different ingredients, unrelated actions), ignore them.
+
+Think step by step:
+Identify key nouns or actions in the original segment caption.
+Check whether any clip captions describe these elements with more concrete visuals (e.g., ingredient names, utensils, actions).
+If so, insert the relevant visual details into the original sentence without altering its original intent or structure.
+If not, use the original caption unchanged.
+Output only the final sentence without any formatting or symbols.
+
+[Example 1]
+Clip Captions:
+001: Stir vegetables, add oregano and dry bay leaves.
+002: Mix chocolate syrup into boiling soup.
+Original Segment Caption:
+Add thyme and a bay leaf to the pot.
+Output Segment Caption:
+Add thyme and a bay leaf to the pot
+
+[Example 2]
+001: Cook macaroni, add salt and icing sugar.
+002: Add butter, worcestershire sauce, and hot sauce to the pot, then stir
+Original Segment Caption:
+Stir the contents of the pot.
+Output Segment Caption:
+Stir macaroni, butter and sauces in the pot.
+
+[Example 3]
+001: Cutting open a fish
+002: The chef is filleting the fish.
+003: A person is holding a fish by a rope
+004: Removes slime from fish
+005: cutting the fish from head to tail
+Original Segment Caption:
+Cut the head off the tuna.
+Output Segment Caption:
+Fillet and cut the head off the tuna.
+
+[Example 4]
+000: Moves the pot of boiling water
+001: Pouring a sauce on mussels
+Original Segment Caption:
+Pour the broth over the mussels.
+Output Segment Caption:
+Pour the broth over the mussels.
+
+[Example 5]
+Clip Captions
+001: Two plates of snails are placed on dining table
+002: peeling garlic
+003: Pulling the snail out of the shell
+004: Person is eating something
+005: A man is holding a piece of chili and talking about it
+006: Woman talks to the man in jacket.
+007: A snail is crawling on the table.
+008: The slug is eating the leaf
+009: giving water to the plants
+010: The camera is shaking on the side of a hole in the brick wall, while a snail slowly crawls in it.
+011: snail moving on the ground
+012: mixing something
+013: Gardener is watering the plants
+Original Segment Caption:
+Cut the british snail into small pieces and add to the bowl.
+Output Segment Caption:
+Cut the british snail into small pieces and add to the bowl.
+---------
+Original Segment Caption (reference style):
+<input_seg>
+Clip Captions:
+<input_clips>
+Generate a rewritten caption:
+"""
